@@ -1,9 +1,9 @@
 """
-Renren OAuth support.
+QQ OAuth support.
 
-This adds support for Renren OAuth service. An application must
-be registered first on renren.com and the settings RENREN_CONSUMER_KEY
-and RENREN_CONSUMER_SECRET must be defined with they corresponding
+This adds support for QQ OAuth service. An application must
+be registered first on renren.com and the settings QQ_CONSUMER_KEY
+and QQ_CONSUMER_SECRET must be defined with they corresponding
 values.
 
 By default account id is stored in extra_data field, check OAuthBackend
@@ -33,7 +33,7 @@ QQ_AUTHORIZATION_URL = 'https://%s/oauth2.0/authorize' % \
 
 
 class QqBackend(OAuthBackend):
-    """Renren OAuth authentication backend"""
+    """QQ OAuth authentication backend"""
     name = 'qq'
     EXTRA_DATA = [('figureurl_1', 'figureurl_1'),]
 
