@@ -18,7 +18,6 @@ from social_auth.utils import dsa_urlopen
 
 from social_auth.backends import ConsumerBasedOAuth, OAuthBackend, BaseOAuth2
 from social_auth.exceptions import AuthCanceled
-from _pydev_xmlrpclib import Error
 from social_auth.utils import setting
 
 
