@@ -34,7 +34,7 @@ QQ_AUTHORIZATION_URL = 'https://%s/oauth2.0/authorize' % \
 class QqBackend(OAuthBackend):
     """QQ OAuth authentication backend"""
     name = 'qq'
-    EXTRA_DATA = [('figureurl_1', 'figureurl_1'),]
+    EXTRA_DATA = [('figureurl_qq_1', 'figureurl_qq_1'),]
 
     def get_user_id(self, details, response):
         m = re.match(r'http:\/\/qzapp.qlogo.cn\/qzapp\/\d{9}/(?P<openid>\w{32})/\d{2}',response['figureurl_1'])
