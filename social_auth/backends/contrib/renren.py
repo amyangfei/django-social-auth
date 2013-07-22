@@ -30,7 +30,7 @@ RENREN_AUTHORIZATION_URL = 'https://%s/oauth/authorize' % \
 class RenrenBackend(OAuthBackend):
     """Renren OAuth authentication backend"""
     name = 'renren'
-    EXTRA_DATA = [('uid', 'id')]
+    EXTRA_DATA = [('uid', 'id'),('name', 'username')]
 
     def get_user_id(self, details, response):
         return response['uid']
