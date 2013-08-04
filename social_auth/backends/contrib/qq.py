@@ -34,7 +34,7 @@ QQ_AUTHORIZATION_URL = 'https://%s/oauth2.0/authorize' % \
 class QqBackend(OAuthBackend):
     """QQ OAuth authentication backend"""
     name = 'qq'
-    EXTRA_DATA = [('figureurl_qq_1', 'figureurl_qq_1'),('nickname', 'username'),]
+    EXTRA_DATA = [('figureurl_qq_1', 'figureurl_qq_1'),('nickname', 'username'),('uid','uid')]
 
     def get_user_id(self, details, response):
         m = re.match(r'http:\/\/qzapp.qlogo.cn\/qzapp\/\d{9}/(?P<openid>\w{32})/\d{2}',response['figureurl_1'])
@@ -53,7 +53,7 @@ class QqAuth(BaseOAuth2):
     AUTH_BACKEND = QqBackend
     SETTINGS_KEY_NAME = 'QQ_CLIENT_ID'
     SETTINGS_SECRET_NAME = 'QQ_CLIENT_SECRET'
-    DEFAULT_SCOPE = ['get_simple_userinfo','get_info']
+    DEFAULT_SCOPE = setting('QQ_SCOPE')
 
     def get_open_id(self, access_token):
         data = {'access_token': access_token}

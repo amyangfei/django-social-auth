@@ -15,6 +15,7 @@ from django.utils import simplejson
 from social_auth.utils import dsa_urlopen
 from social_auth.backends import ConsumerBasedOAuth, OAuthBackend, BaseOAuth2
 from social_auth.exceptions import AuthCanceled
+from social_auth.utils import setting
 
 
 RENREN_SERVER = 'graph.renren.com'
@@ -30,10 +31,10 @@ RENREN_AUTHORIZATION_URL = 'https://%s/oauth/authorize' % \
 class RenrenBackend(OAuthBackend):
     """Renren OAuth authentication backend"""
     name = 'renren'
-    EXTRA_DATA = [('uid', 'id'),('name', 'username')]
+    EXTRA_DATA = [('id', 'id'),('name', 'username'),('refresh_token', 'refresh_token')]
 
     def get_user_id(self, details, response):
-        return response['uid']
+        return response['id']
 
     def get_user_details(self, response):
         """Return user details from Renren"""
@@ -48,14 +49,17 @@ class RenrenAuth(BaseOAuth2):
     SETTINGS_KEY_NAME = 'RENREN_CONSUMER_KEY'
     SETTINGS_SECRET_NAME = 'RENREN_CONSUMER_SECRET'
     REDIRECT_STATE = False
+    DEFAULT_SCOPE = setting('RENREN_SCOPE')
 
     def user_data(self, access_token, *args, **kwargs):
         """Return user data provided"""
         uid = kwargs.get('response', {}).get('user').get('id')
-        data = {'access_token': access_token, 'v':'1.0', 'uid': uid,'method':'users.getProfileInfo','format':'JSON'}
-        url = 'https://api.renren.com/restserver.do'# + urlencode(data)
+        data = {'access_token': access_token, 'userId': uid}
+        url = 'https://api.renren.com/v2/user/get?' + urlencode(data)
         try:
-            return simplejson.loads(dsa_urlopen(url,urlencode(data)).read())
+            response = simplejson.loads(dsa_urlopen(url).read())
+            response['response']['avatar'] = response['response']['avatar'][0]['url']
+            return response['response']
         except (Error, ValueError, KeyError, IOError):
             return None
 
