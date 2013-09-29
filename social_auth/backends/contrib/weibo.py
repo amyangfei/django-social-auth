@@ -34,6 +34,7 @@ class WeiboBackend(OAuthBackend):
         ('id', 'id'),
         ('name', 'username'),
         ('profile_image_url', 'profile_image_url'),
+        ('expires_in', 'expires_in'),
         ('gender', 'gender')
     ]
 
