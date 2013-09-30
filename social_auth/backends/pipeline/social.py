@@ -60,7 +60,10 @@ def load_extra_data(backend, details, response, uid, user, social_user=None,
             extra_data['email'] = kwargs.get('original_email')
         t_delta = extra_data.get('expires_in')
         if isinstance(t_delta, int):
-            extra_data['expires_in'] = datetime.datetime.now() + datetime.timedelta(seconds=t_delta)
+            _time = datetime.datetime.now() + datetime.timedelta(seconds=t_delta)
+            extra_data['expires_in'] = datetime.datetime(
+                _time.year, _time.month, _time.day,
+                _time.hour, _time.minute, _time.second)
 
         if extra_data and social_user.extra_data != extra_data:
             if social_user.extra_data:
